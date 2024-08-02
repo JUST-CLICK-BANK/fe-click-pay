@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import './MyInfo.css';
 import Loading from "../component/Loading";
 
-const SERVER = "https://payment.just-click.shop/api/v1/payment";
+const SERVER = "https://payment.just-click.shop/api/v1/businesses";
 
 const MyInfo = () => {
     const [onLoading, setOnLoading] = useState(true);
@@ -14,6 +14,7 @@ const MyInfo = () => {
 
     // test data
     const testData1 = {
+        id: "1234",
         name: "물팔이",
         ceo: "김선달",
         account: "123-123-123456",
@@ -76,16 +77,28 @@ const MyInfo = () => {
     const sendUpdataData = async (e) => {
         e.preventDefault();
         setOnLoading(true);
-        const request = {
-            name: document.getElementById('storeName').value,
-            ceo: document.getElementById('storeCeo').value,
-            account: document.getElementById('storeAccount').value,
-            redirectUrl: urlData
-        }
         try {
-            const response = await axios.post(SERVER+"", request);
-            console.log(response);
+            deleteUrl.forEach(async (e) => {
+                const response = await axios.delete(SERVER+"/redirect/"+storeData.id);
+            });
+
+            insertUrl.forEach(async () => {
+                const request = {
+                    businessId: storeData.id,
+                    redirUrl: e
+                }
+                const response = await axios.post(SERVER+"/redirect", request);
+            });
+
+            const request = {
+                businessName: storeData.name,
+                businessCeo: storeData.ceo,
+                businessAccount: storeData.account,
+            }
+            const response = await axios.put(SERVER+"/"+storeData.id, request);
+
             alert('정보가 업데이트 되었습니다.');
+
         } catch (error) {
             console.log(error);
             alert('서버와 연결중 오류가 발생했습니다.');
@@ -97,7 +110,7 @@ const MyInfo = () => {
         try {
             // const response = await axios.get(SERVER+"");
             const response = testData1;
-            setStoreData({ name:response.name, ceo:response.ceo, account:response.account });
+            setStoreData(response);
         } catch (error) {
             console.log(error);
             alert('서버와 연결중 오류가 발생했습니다.');
