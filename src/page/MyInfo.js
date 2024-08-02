@@ -9,18 +9,20 @@ const MyInfo = () => {
     const [onLoading, setOnLoading] = useState(true);
     const [storeData, setStoreData] = useState();
     const [urlData, setUrlData] = useState();
+    const [insertUrl, setInsertUrl] = useState([]);
+    const [deleteUrl, setDeleteUrl] = useState([]);
 
     // test data
-    const testData = {
+    const testData1 = {
         name: "물팔이",
         ceo: "김선달",
         account: "123-123-123456",
-        redirectUrl: [
-            "http://192.168.0.99:8080",
-            "http://localhost:8080",
-            "https://easy-money.xyz",
-        ],
     };
+    const testData2 = [
+        "http://192.168.0.99:8080",
+        "http://localhost:8080",
+        "https://easy-money.xyz",
+    ];
 
     const checkValidUrl = (string) => {
         try {
@@ -41,20 +43,32 @@ const MyInfo = () => {
         const editData = [...urlData];
         editData.push(urlElement.value);
         setUrlData(editData);
+        const insertData = [...insertUrl];
+        insertData.push(urlElement.value);
+        setInsertUrl(insertData);
         urlElement.value = "";
     };
 
-    const deleteUrl = (index) => {
+    const removeUrl = (index) => {
         const editData = [...urlData];
-        editData.splice(index, 1);
+        const removedData = editData.splice(index, 1);
         setUrlData(editData);
+        const insertData = [...insertUrl];
+        if (insertData.includes(removedData[0])) {
+            insertData.splice(insertData.indexOf(removedData[0]),1);
+            setInsertUrl(insertData);
+        } else {
+            const deleteData = [...deleteUrl];
+            deleteData.push(removedData[0]);
+            setDeleteUrl(deleteData);
+        }
     };
 
     const UrlList = (url, index) => {
         return (
             <div style={{display:'flex', flexDirection:'row', padding:'8px', paddingBottom:'0px'}} key={index}>
                 <div style={{flex:1}}>{url}</div>
-                <div className='inputUrlButton' onClick={() => deleteUrl(index)}>삭제</div>
+                <div className='inputUrlButton' onClick={() => removeUrl(index)}>삭제</div>
             </div>
         );
     }
@@ -82,9 +96,16 @@ const MyInfo = () => {
     const getData = async () => {
         try {
             // const response = await axios.get(SERVER+"");
-            const response = testData;
+            const response = testData1;
             setStoreData({ name:response.name, ceo:response.ceo, account:response.account });
-            setUrlData(response.redirectUrl)
+        } catch (error) {
+            console.log(error);
+            alert('서버와 연결중 오류가 발생했습니다.');
+        }
+        try {
+            // const response = await axios.get(SERVER+"");
+            const response = testData2;
+            setUrlData(response);
         } catch (error) {
             console.log(error);
             alert('서버와 연결중 오류가 발생했습니다.');
