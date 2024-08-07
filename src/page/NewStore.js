@@ -60,7 +60,7 @@ const NewStore = () => {
                         </div>
                         <input
                             type="submit"
-                            style={{width:"120px", height:"28px", marginTop:"20px", backgroundColor:"#fff", borderRadius:"3px", cursor:"pointer"}}
+                            style={{width:"120px", height:"28px", marginTop:"20px", backgroundColor:"#fff", borderRadius:"3px", border:"1px solid gray", cursor:"pointer"}}
                             value={"가맹점 등록"}
                         />
                     </form>
