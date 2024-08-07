@@ -10,10 +10,6 @@ const GetApiKey = () => {
         setNextButtonState(false);
     }, 2000);
 
-    const goInfo = () => {
-        navigate('/login');
-    }
-
     return (
         <div className='mainContatiner'>
             <div className='loginContainer'>
@@ -34,7 +30,7 @@ const GetApiKey = () => {
                 
                 <div style={{display:"flex", alignItems:"center", flexDirection:"column", fontSize:"20px"}}>
                     <button 
-                        onClick={goInfo}
+                        onClick={() => navigate('/login')}
                         style={{width:"160px", height:"32px", marginTop:"40px", backgroundColor:"#fff", borderRadius:"3px", cursor:"pointer"}}
                         disabled={nextButtonState}
                     >
