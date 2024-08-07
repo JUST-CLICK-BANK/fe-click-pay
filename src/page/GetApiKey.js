@@ -31,7 +31,7 @@ const GetApiKey = () => {
                 <div style={{display:"flex", alignItems:"center", flexDirection:"column", fontSize:"20px"}}>
                     <button 
                         onClick={() => navigate('/login')}
-                        style={{width:"160px", height:"32px", marginTop:"40px", backgroundColor:"#fff", borderRadius:"3px", cursor:"pointer"}}
+                        style={{width:"160px", height:"32px", marginTop:"40px", backgroundColor:"#fff", borderRadius:"3px", border:"1px solid gray", cursor:"pointer"}}
                         disabled={nextButtonState}
                     >
                         로그인 페이지로 이동
