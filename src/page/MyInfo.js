@@ -14,13 +14,9 @@ const MyInfo = () => {
     const [urlData, setUrlData] = useState();
 
     const checkValidUrl = (string) => {
-        try {
-            const getUrl = new URL(string);
-            return getUrl.protocol === 'http:' || getUrl.protocol === 'https:';
-        } catch (err) {
-            console.log(err);
-            return false;
-        }
+        const check = string.split("://");
+        if (check.length > 2 || !/^[a-zA-Z]+$/.test(check[0])) return false;
+        return true;
     }
 
     const addUrl = () => {
