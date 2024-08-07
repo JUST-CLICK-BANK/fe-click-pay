@@ -2,30 +2,34 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './MyInfo.css';
 import Loading from "../component/Loading";
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const SERVER = "https://payment.just-click.shop/api/v1/payment";
+const SERVER = "https://just-click.shop/api/v1/businesses";
 
 const MyInfo = () => {
+    const navigate = useNavigate();
+    const { storeId } = {...useLocation().state};
     const [onLoading, setOnLoading] = useState(true);
     const [storeData, setStoreData] = useState();
     const [urlData, setUrlData] = useState();
 
     // test data
-    const testData = {
-        name: "물팔이",
-        ceo: "김선달",
-        account: "123-123-123456",
-        redirectUrl: [
-            "http://192.168.0.99:8080",
-            "http://localhost:8080",
-            "https://easy-money.xyz",
-        ],
+    const testData1 = {
+        businessId: "1234",
+        businessName: "물팔이",
+        businessCeo: "김선달",
+        businessAccount: "123-123-123456",
     };
+    const testData2 = [
+        {redirUrl: "http://192.168.0.99:8080"},
+        {redirUrl: "http://localhost:8080"},
+        {redirUrl: "https://easy-money.xyz"},
+    ];
 
     const checkValidUrl = (string) => {
         try {
             const getUrl = new URL(string);
-            return getUrl.protocol == 'http:' || getUrl.protocol == 'https:';
+            return getUrl.protocol === 'http:' || getUrl.protocol === 'https:';
         } catch (err) {
             console.log(err);
             return false;
@@ -44,9 +48,9 @@ const MyInfo = () => {
         urlElement.value = "";
     };
 
-    const deleteUrl = (index) => {
+    const removeUrl = (index) => {
         const editData = [...urlData];
-        editData.splice(index, 1);
+        editData.splice(index,1);
         setUrlData(editData);
     };
 
@@ -54,7 +58,7 @@ const MyInfo = () => {
         return (
             <div style={{display:'flex', flexDirection:'row', padding:'8px', paddingBottom:'0px'}} key={index}>
                 <div style={{flex:1}}>{url}</div>
-                <div className='inputUrlButton' onClick={() => deleteUrl(index)}>삭제</div>
+                <div className='inputUrlButton' onClick={() => removeUrl(index)}>삭제</div>
             </div>
         );
     }
@@ -62,16 +66,27 @@ const MyInfo = () => {
     const sendUpdataData = async (e) => {
         e.preventDefault();
         setOnLoading(true);
-        const request = {
-            name: document.getElementById('storeName').value,
-            ceo: document.getElementById('storeCeo').value,
-            account: document.getElementById('storeAccount').value,
-            redirectUrl: urlData
-        }
         try {
-            const response = await axios.post(SERVER+"", request);
-            console.log(response);
+            await axios.delete(SERVER+"/redirect/"+storeId);
+
+            urlData.forEach(async (url) => {
+                const request = {
+                    businessId: storeId,
+                    redirUrl: url
+                }
+                const response = await axios.post(SERVER+"/redirect", request);
+                console.log(response);
+            });
+
+            const request = {
+                businessName: document.getElementById("storeName").value,
+                businessCeo: document.getElementById("storeCeo").value,
+                businessAccount: document.getElementById("storeAccount").value,
+            }
+            await axios.put(SERVER+"/"+storeId, request);
+
             alert('정보가 업데이트 되었습니다.');
+
         } catch (error) {
             console.log(error);
             alert('서버와 연결중 오류가 발생했습니다.');
@@ -81,13 +96,18 @@ const MyInfo = () => {
 
     const getData = async () => {
         try {
-            // const response = await axios.get(SERVER+"");
-            const response = testData;
-            setStoreData({ name:response.name, ceo:response.ceo, account:response.account });
-            setUrlData(response.redirectUrl)
+            const responseStore = await axios.get(SERVER+"/"+storeId);
+            console.log(responseStore.data);
+            const responseUrl = await axios.get(SERVER+"/redirect/"+storeId);
+            console.log(responseUrl.data);
+            // const responseStore = testData1;
+            // const responseUrl = testData2;
+            setStoreData(responseStore.data);
+            setUrlData(responseUrl.data);
         } catch (error) {
             console.log(error);
             alert('서버와 연결중 오류가 발생했습니다.');
+            navigate('/login');
         }
         setOnLoading(false);
     }
@@ -98,37 +118,50 @@ const MyInfo = () => {
 
     return (
         <div className='infoMainContatiner'>
-            <form className='infoContainer' onSubmit={(e) => sendUpdataData(e)}>
-                <div className='infoName'>
-                    가맹점 이름
+            <div className='infoInnerContainer'>
+                <div style={{fontSize:"28px", textAlign:"center", marginBottom:"20px"}}>
+                    등록 정보 수정
                 </div>
-                <input id='storeName' className='inputText' defaultValue={storeData?.name}/>
-                <div className='infoName'>
-                    가맹점 대표
-                </div>
-                <input id='storeCeo' className='inputText' defaultValue={storeData?.ceo}/>
-                <div className='infoName'>
-                    연동 계좌
-                </div>
-                <input id='storeAccount' className='inputText' defaultValue={storeData?.account}/>
-                <div className='infoName'>
-                    등록된 Redirect URL
-                </div>
-                <div className='urlContainer'>
-                    {urlData?.map(UrlList)}
-                    <div style={{display:'flex', flexDirection:'row', padding:'8px'}}>
-                        <input className='inputUrl'/>
-                        <div className='inputUrlButton' onClick={addUrl}>추가</div>
+                <form className='infoContainer' onSubmit={(e) => sendUpdataData(e)}>
+                    <div className='infoName'>
+                        가맹점 이름
                     </div>
+                    <input id='storeName' className='inputText' defaultValue={storeData?.businessName}/>
+                    <div className='infoName'>
+                        가맹점 대표
+                    </div>
+                    <input id='storeCeo' className='inputText' defaultValue={storeData?.businessCeo}/>
+                    <div className='infoName'>
+                        연동 계좌
+                    </div>
+                    <input id='storeAccount' className='inputText' defaultValue={storeData?.businessAccount}/>
+                    <div className='infoName'>
+                        등록된 Redirect URL
+                    </div>
+                    <div className='urlContainer'>
+                        {urlData?.length>0 ? urlData.map(UrlList) : ""}
+                        <div style={{display:'flex', flexDirection:'row', padding:'8px'}}>
+                            <input className='inputUrl'/>
+                            <div className='inputUrlButton' onClick={addUrl}>추가</div>
+                        </div>
+                    </div>
+                    <div style={{display:'flex', justifyContent:'center'}}>
+                        <input
+                            className='submitButton'
+                            type="submit"
+                            value={"변경내역 저장"}
+                        />
+                    </div>
+                </form>
+                <div style={{display:'flex', justifyContent:'flex-end'}}>
+                    <button 
+                        onClick={() => navigate('/login')}
+                        style={{width:"100px", height:"28px", marginTop:"20px", backgroundColor:"#fff", borderRadius:"3px", border:"1px solid gray", cursor:"pointer"}}
+                    >
+                        로그아웃
+                    </button>
                 </div>
-                <div style={{display:'flex', justifyContent:'center'}}>
-                    <input
-                        className='submitButton'
-                        type="submit"
-                        value={"변경내역 저장"}
-                    />
-                </div>
-            </form>
+            </div>
             {onLoading? <Loading /> : ""}
         </div>
     )
