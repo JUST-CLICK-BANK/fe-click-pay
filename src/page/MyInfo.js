@@ -13,19 +13,6 @@ const MyInfo = () => {
     const [storeData, setStoreData] = useState();
     const [urlData, setUrlData] = useState();
 
-    // test data
-    const testData1 = {
-        businessId: "1234",
-        businessName: "물팔이",
-        businessCeo: "김선달",
-        businessAccount: "123-123-123456",
-    };
-    const testData2 = [
-        {redirUrl: "http://192.168.0.99:8080"},
-        {redirUrl: "http://localhost:8080"},
-        {redirUrl: "https://easy-money.xyz"},
-    ];
-
     const checkValidUrl = (string) => {
         try {
             const getUrl = new URL(string);
@@ -114,6 +101,7 @@ const MyInfo = () => {
 
     useEffect(() => {
         getData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     return (
