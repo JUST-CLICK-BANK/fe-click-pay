@@ -5,6 +5,11 @@
     justify-content: flex-start;
     margin-top: 20px;
 }
+.infoInnerContainer{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
 .infoContainer {
     display: flex;
     flex-direction: column;

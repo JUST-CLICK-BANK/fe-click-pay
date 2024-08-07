@@ -22,11 +22,8 @@ const Login = () => {
                     businessPassword: document.getElementById("input_password").value,
                 }
             );
-            console.log(response.data)
-            alert("성공!");
-            // navigate('/info', {state: {storeId: response.data.businessId}});
+            navigate('/info', {state: {storeId: response.data}});
         } catch (error) {
-            // console.log(error);
             alert('로그인에 실패했습니다.\n키와 비밀번호를 확인해주세요.');
         }
         document.getElementById("input_password").value = "";
