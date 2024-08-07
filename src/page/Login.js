@@ -50,13 +50,13 @@ const Login = () => {
                         <div style={{display:"flex", flexDirection:"row", gap:"10px"}}>
                             <input
                                 type="submit"
-                                style={{width:"80px", height:"28px", marginTop:"20px", backgroundColor:"#fff", borderRadius:"3px", cursor:"pointer"}}
+                                style={{width:"80px", height:"28px", marginTop:"20px", backgroundColor:"#fff", borderRadius:"3px", border:"1px solid gray", cursor:"pointer"}}
                                 value={"로그인"}
                             />
                             <input
                                 type="button"
                                 onClick={() => {navigate('/new')}}
-                                style={{width:"80px", height:"28px", marginTop:"20px", backgroundColor:"#fff", borderRadius:"3px", cursor:"pointer"}}
+                                style={{width:"80px", height:"28px", marginTop:"20px", backgroundColor:"#fff", borderRadius:"3px", border:"1px solid gray", cursor:"pointer"}}
                                 value={"신규 등록"}
                             />
                         </div>
