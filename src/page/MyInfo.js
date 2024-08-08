@@ -15,7 +15,7 @@ const MyInfo = () => {
 
     const checkValidUrl = (string) => {
         const check = string.split("://");
-        if (check.length > 2 || !/^[a-zA-Z]+$/.test(check[0])) return false;
+        if (check.length > 2 || !/^[a-zA-Z0-9]+$/.test(check[0])) return false;
         return true;
     }
 
