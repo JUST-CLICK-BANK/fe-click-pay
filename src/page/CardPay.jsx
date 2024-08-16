@@ -8,7 +8,7 @@ export default function CardPay() {
             <button onClick={() => {navigate('/login')}} className="login">
               페이 로그인
             </button>
-            <button onClick={() => {navigate('/card-product')}} className="card">
+            <button onClick={() => {navigate('/card-login')}} className="card">
               카드 상품 등록
             </button>
         </div>

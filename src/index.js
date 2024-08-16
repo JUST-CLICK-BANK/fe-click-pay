@@ -9,6 +9,7 @@ import NewStore from './page/NewStore';
 import GetApiKey from './page/GetApiKey';
 import CardInformation from './page/CardInformation';
 import CardPay from './page/CardPay';
+import CardLogin from './page/CardLogin';
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
       { path: "/card-product", element:<CardInformation/>},
       { path: "/",element:<CardPay/>},
       { path: "/card",element:<CardPay/>},
-      // { path: "/", element: <Login /> },
+      { path: "/card-login",element:<CardLogin/>},
       { path: "/login", element: <Login /> },
       { path: "/info", element: <MyInfo /> },
       { path: "/new", element: <NewStore /> },
