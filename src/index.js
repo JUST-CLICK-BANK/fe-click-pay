@@ -7,13 +7,18 @@ import Login from './page/Login';
 import MyInfo from './page/MyInfo';
 import NewStore from './page/NewStore';
 import GetApiKey from './page/GetApiKey';
+import CardInformation from './page/CardInformation';
+import CardPay from './page/CardPay';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      { path: "/", element: <Login /> },
+      { path: "/card-product", element:<CardInformation/>},
+      { path: "/",element:<CardPay/>},
+      { path: "/card",element:<CardPay/>},
+      // { path: "/", element: <Login /> },
       { path: "/login", element: <Login /> },
       { path: "/info", element: <MyInfo /> },
       { path: "/new", element: <NewStore /> },

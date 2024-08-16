@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login, .card {
+    width: 300px;
+    height: 500px;
+    background-color: #B7E1CE;
+    border-radius: 15px;
+    border: 1px solid white;
+    margin-right: 100px;
+    transition: background-color 0.3s ease;
+    font-size: 24px; 
+}
+
+.login:hover, .card:hover {
+    background-color: #6BC29A; 
+}
+
+.card {
+    margin-right: 0; /* 마지막 버튼은 margin-right 제거 */
+}
