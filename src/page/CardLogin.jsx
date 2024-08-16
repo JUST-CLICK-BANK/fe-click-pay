@@ -1,7 +1,6 @@
 import ClickLogo from '../component/logo';
 import './CardLogin.css';
 import { useState } from "react";
-import Loading from "../component/Loading";
 import { useNavigate } from "react-router-dom";
 
 export default function CardLogin() {
