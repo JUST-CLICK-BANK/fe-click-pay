@@ -1,0 +1,127 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85%;
+  margin-top: 20px;
+}
+
+.nameContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 15px;
+}
+
+.cardText {
+  font-size: 30px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.cardImageContainer {
+  align-items: center;
+  /* margin: 20px 0; */
+  margin-top: 20px;
+}
+
+.cardImage {
+  width: 100px;
+  height: 150px;
+  background-color: #B7E1CE;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.cardInformation {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 20px;
+  flex: 1;
+}
+
+.cardName {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.cardDescription {
+  font-size: 16px;
+  color: #666;
+}
+
+.cardBenefits {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #B7E1CE;
+  border-radius: 10px;
+  height: 100px;
+}
+
+.cardBenefitsText {
+  font-size: 16px;
+}
+
+.feeContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  border: 1px solid #B7E1CE;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100%;
+}
+
+.feeText {
+  font-size: 16px;
+}
+
+.feeInput {
+  font-size: 16px;
+  color: #000;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.cardDetailDescription {
+  border: 1px solid #B7E1CE;
+  border-radius: 10px;
+  padding: 10px;
+  height: 250px;
+  margin: 10px 0;
+  width: 100%;
+  resize: none;
+}
+
+.applyButton {
+  background-color: #B7E1CE;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+}
+
+.applyButtonText {
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+}
