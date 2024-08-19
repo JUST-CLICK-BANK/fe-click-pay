@@ -200,22 +200,23 @@ export default function CardInformation() {
             );
             console.log('Response: ', response);
 
-            const binary = atob(entry.cardImg.split(',')[1]);
-            const array = [];
-            for (let i = 0; i < binary.length; i++) {
-                array.push(binary.charCodeAt(i));
-            }
+            // const binary = atob(entry.cardImg.split(',')[1]);
+            // const array = [];
+            // for (let i = 0; i < binary.length; i++) {
+            //     array.push(binary.charCodeAt(i));
+            // }
+            
             const blobData = new Blob([new Uint8Array(array)], { type: 'mutipart/form-data' });
 
             console.log('Uploading to: ', response.data.uploadURL);
             const result = await fetch(response.data.uploadURL, {
-                method: 'PUT',
+                method: 'POST',
                 body: blobData,
             });
             console.log('Result: ', result);
 
-            const uploadedURL = response.data.uploadURL.split('?')[0];
-            return uploadedURL;
+            // const uploadedURL = response.data.uploadURL.split('?')[0];
+            // return uploadedURL;
         } catch (error) {
             console.error('Upload failed', error);
             return null;
