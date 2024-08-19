@@ -183,7 +183,21 @@ export default function CardInformation() {
     const API_ENDPOINT = "https://yxacaqq2yg.execute-api.ap-northeast-2.amazonaws.com/cards/product"
     const uploadImage = async () => {
         try {
-            const response = await axios.post(API_ENDPOINT);
+            const formData = new FormData();
+            const jsonImg = JSON.stringify(entry.cardImg);
+            const blob = new Blob([jsonImg], { type: "application/json"});
+            formData.append("file", blob);
+
+
+
+            const response = await axios.post(
+                API_ENDPOINT,
+                formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                }
+            );
             console.log('Response: ', response);
 
             const binary = atob(entry.cardImg.split(',')[1]);
