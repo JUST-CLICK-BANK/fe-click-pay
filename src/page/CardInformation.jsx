@@ -179,7 +179,7 @@ export default function CardInformation() {
         cardBenefits: ""
     });
 
-    const API_ENDPOINT = 'https://dsut3aszqe.execute-api.ap-northeast-2.amazonaws.com/test1/cards/product';
+    const API_ENDPOINT = 'https://dsut3aszqe.execute-api.ap-northeast-2.amazonaws.com/test2/cards/product';
 
     const uploadImage = async () => {
         try {
