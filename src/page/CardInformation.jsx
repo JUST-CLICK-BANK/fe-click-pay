@@ -183,7 +183,7 @@ export default function CardInformation() {
     const API_ENDPOINT = "https://yxacaqq2yg.execute-api.ap-northeast-2.amazonaws.com/cards/product"
     const uploadImage = async () => {
         try {
-            const response = await axios.get(API_ENDPOINT);
+            const response = await axios.post(API_ENDPOINT);
             console.log('Response: ', response);
 
             const binary = atob(entry.cardImg.split(',')[1]);
@@ -191,7 +191,7 @@ export default function CardInformation() {
             for (let i = 0; i < binary.length; i++) {
                 array.push(binary.charCodeAt(i));
             }
-            const blobData = new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
+            const blobData = new Blob([new Uint8Array(array)], { type: 'mutipart/form-data' });
 
             console.log('Uploading to: ', response.data.uploadURL);
             const result = await fetch(response.data.uploadURL, {
