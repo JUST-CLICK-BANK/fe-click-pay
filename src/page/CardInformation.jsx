@@ -179,8 +179,8 @@ export default function CardInformation() {
         cardBenefits: ""
     });
 
-    const API_ENDPOINT = 'https://dsut3aszqe.execute-api.ap-northeast-2.amazonaws.com/test2/cards/product';
-
+    // const API_ENDPOINT = 'https://dsut3aszqe.execute-api.ap-northeast-2.amazonaws.com/test2/cards/product';
+    const API_ENDPOINT = "https://yxacaqq2yg.execute-api.ap-northeast-2.amazonaws.com/cards"
     const uploadImage = async () => {
         try {
             const response = await axios.get(API_ENDPOINT);
