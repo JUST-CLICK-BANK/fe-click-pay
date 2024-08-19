@@ -163,6 +163,7 @@
 //         </div>
 //     );
 // }
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CardInformation.css';
@@ -177,7 +178,7 @@ export default function CardInformation() {
         cardImg: null,
         cardBenefits: ""
     });
-    const [uploadURL, setUploadURL] = useState('');
+
     const API_ENDPOINT = 'https://dsut3aszqe.execute-api.ap-northeast-2.amazonaws.com/test/cards/product';
 
     const uploadImage = async () => {
@@ -200,7 +201,6 @@ export default function CardInformation() {
             console.log('Result: ', result);
 
             const uploadedURL = response.data.uploadURL.split('?')[0];
-            setUploadURL(uploadedURL);
             return uploadedURL;
         } catch (error) {
             console.error('Upload failed', error);
@@ -319,7 +319,3 @@ export default function CardInformation() {
         </div>
     );
 }
-
-
-
-
