@@ -180,7 +180,7 @@ export default function CardInformation() {
     });
 
     // const API_ENDPOINT = 'https://dsut3aszqe.execute-api.ap-northeast-2.amazonaws.com/test2/cards/product';
-    const API_ENDPOINT = "https://yxacaqq2yg.execute-api.ap-northeast-2.amazonaws.com/test/product"
+    const API_ENDPOINT = "https://yxacaqq2yg.execute-api.ap-northeast-2.amazonaws.com/cards/product"
     const uploadImage = async () => {
         try {
             const response = await axios.post(API_ENDPOINT);
