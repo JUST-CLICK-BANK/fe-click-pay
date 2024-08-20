@@ -21,31 +21,31 @@ export default function CardInformation() {
             setSelectedFile(event.target.files[0]);
         };
     
-        const handleUpload = async () => {
-            if (!selectedFile) {
-                setUploadStatus('No file selected');
-                return;
-            }
+        // const handleUpload = async () => {
+        //     if (!selectedFile) {
+        //         setUploadStatus('No file selected');
+        //         return;
+        //     }
     
-            const formData = new FormData();
-            formData.append('file', selectedFile);  // 'file'은 Lambda 함수에서 처리할 키와 동일해야 합니다.
+        //     const formData = new FormData();
+        //     formData.append('file', selectedFile);  // 'file'은 Lambda 함수에서 처리할 키와 동일해야 합니다.
     
-            try {
-                const response = await axios.post('https://yxacaqq2yg.execute-api.ap-northeast-2.amazonaws.com/cards/product', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
+        //     try {
+        //         const response = await axios.post('https://yxacaqq2yg.execute-api.ap-northeast-2.amazonaws.com/cards/product', formData, {
+        //             headers: {
+        //                 'Content-Type': 'multipart/form-data'
+        //             }
+        //         });
     
-                if (response.status === 200) {
-                    setUploadStatus('Image uploaded successfully: ' + response.data.url);
-                } else {
-                    setUploadStatus('Image upload failed: ' + response.data.error);
-                }
-            } catch (error) {
-                setUploadStatus('Image upload failed: ' + error.message);
-            }
-        };
+        //         if (response.status === 200) {
+        //             setUploadStatus('Image uploaded successfully: ' + response.data.url);
+        //         } else {
+        //             setUploadStatus('Image upload failed: ' + response.data.error);
+        //         }
+        //     } catch (error) {
+        //         setUploadStatus('Image upload failed: ' + error.message);
+        //     }
+        // };
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -56,21 +56,68 @@ export default function CardInformation() {
         }
     };
 
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         const formData = new FormData();
+    //         formData.append('cardProductRequest', JSON.stringify({
+    //             cardProductName: entry.cardProductName,
+    //             cardAnnualFee: entry.cardAnnualFee,
+    //             cardBenefits: entry.cardBenefits,
+    //             // cardImg: entry.cardImg
+
+    //         }));
+    //         if (entry.cardImg) {
+    //             formData.append('cardImg', entry.cardImg);
+    //         }
+    //         await createCardProduct(formData);
+    //         alert('카드 상품이 성공적으로 생성되었습니다.');
+    //         navigate('/'); // 원하는 경로로 이동
+    //     } catch (error) {
+    //         console.error('Error creating card product:', error);
+    //         alert('카드 상품 생성에 실패했습니다.');
+    //     }
+    // };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
-            const formData = new FormData();
-            formData.append('cardProductRequest', JSON.stringify({
+            let imageUrl = null;
+            if (selectedFile) {
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+
+                const uploadResponse = await axios.post('https://yxacaqq2yg.execute-api.ap-northeast-2.amazonaws.com/cards/product', formData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (uploadResponse.status === 200) {
+                    imageUrl = uploadResponse.data.url;
+                    setUploadStatus('Image uploaded successfully: ' + imageUrl);
+                } else {
+                    setUploadStatus('Image upload failed: ' + uploadResponse.data.error);
+                    return;
+                }
+            }
+
+            // 이미지 URL을 entry 상태에 저장
+            setEntry((prevEntry) => ({
+                ...prevEntry,
+                cardImg: imageUrl
+            }));
+
+            // 서버에 최종 데이터 제출
+            const finalData = {
                 cardProductName: entry.cardProductName,
                 cardAnnualFee: entry.cardAnnualFee,
                 cardBenefits: entry.cardBenefits,
-                cardImg: entry.cardImg
+                cardImg: imageUrl // 업로드된 이미지의 URL 포함
+            };
 
-            }));
-            if (entry.cardImg) {
-                formData.append('cardImg', entry.cardImg);
-            }
-            await createCardProduct(formData);
+            await createCardProduct(finalData);
             alert('카드 상품이 성공적으로 생성되었습니다.');
             navigate('/'); // 원하는 경로로 이동
         } catch (error) {
@@ -97,8 +144,16 @@ export default function CardInformation() {
                                 className="fileInput"
                                 accept="image/jpeg"
                             /> */}
-                            <input type="file" onChange={handleFileChange} />
+                            {/* <input type="file" onChange={handleFileChange} />
                             <button onClick={handleUpload}>Upload Image</button>
+                            <p>{uploadStatus}</p> */}
+                             <input 
+                                type="file" 
+                                name="cardImg" 
+                                onChange={handleChange} 
+                                className="fileInput" 
+                                accept="image/jpeg"
+                            />
                             <p>{uploadStatus}</p>
                         </div>
                     </div>
