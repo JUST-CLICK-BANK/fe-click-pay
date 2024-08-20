@@ -196,6 +196,58 @@
 //     );
 // }
 
+// import React, { useState } from 'react';
+// import axios from 'axios';
+
+// export default function ImageUpload() {
+//     const [selectedFile, setSelectedFile] = useState(null);
+//     const [uploadStatus, setUploadStatus] = useState('');
+
+//     const handleFileChange = (event) => {
+//         setSelectedFile(event.target.files[0]);
+//     };
+
+//     const handleUpload = async () => {
+//         if (!selectedFile) {
+//             setUploadStatus('No file selected');
+//             return;
+//         }
+
+//         const reader = new FileReader();
+//         reader.onloadend = async () => {
+//             const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
+//             const fileName = selectedFile.name;
+
+//             try {
+//                 const response = await axios.post('https://yxacaqq2yg.execute-api.ap-northeast-2.amazonaws.com/cards/product', {
+//                     file: fileName,
+//                     // headers:
+//                     // content: base64String,
+//                     // contentType: selectedFile.type // 파일의 MIME 타입
+//                 });
+
+//                 if (response.status === 200) {
+//                     setUploadStatus('Image uploaded successfully: ' + response.data.file);
+//                 } else {
+//                     setUploadStatus('Image upload failed: ' + response.data.error);
+//                 }
+//             } catch (error) {
+//                 setUploadStatus('Image upload failed: ' + error.message);
+//             }
+//         };
+
+//         reader.readAsDataURL(selectedFile);
+//     };
+
+//     return (
+//         <div>
+//             <input type="file" onChange={handleFileChange} />
+//             <button onClick={handleUpload}>Upload Image</button>
+//             <p>{uploadStatus}</p>
+//         </div>
+//     );
+// }
+
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -213,29 +265,24 @@ export default function ImageUpload() {
             return;
         }
 
-        const reader = new FileReader();
-        reader.onloadend = async () => {
-            const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
-            const fileName = selectedFile.name;
+        const formData = new FormData();
+        formData.append('file', selectedFile);  // 'file'은 Lambda 함수에서 처리할 키와 동일해야 합니다.
 
-            try {
-                const response = await axios.post('https://yxacaqq2yg.execute-api.ap-northeast-2.amazonaws.com/cards/product', {
-                    file: fileName,
-                    content: base64String,
-                    contentType: selectedFile.type // 파일의 MIME 타입
-                });
-
-                if (response.status === 200) {
-                    setUploadStatus('Image uploaded successfully: ' + response.data.file);
-                } else {
-                    setUploadStatus('Image upload failed: ' + response.data.error);
+        try {
+            const response = await axios.post('https://yxacaqq2yg.execute-api.ap-northeast-2.amazonaws.com/cards/product', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
-            } catch (error) {
-                setUploadStatus('Image upload failed: ' + error.message);
-            }
-        };
+            });
 
-        reader.readAsDataURL(selectedFile);
+            if (response.status === 200) {
+                setUploadStatus('Image uploaded successfully: ' + response.data.url);
+            } else {
+                setUploadStatus('Image upload failed: ' + response.data.error);
+            }
+        } catch (error) {
+            setUploadStatus('Image upload failed: ' + error.message);
+        }
     };
 
     return (
@@ -246,3 +293,4 @@ export default function ImageUpload() {
         </div>
     );
 }
+
