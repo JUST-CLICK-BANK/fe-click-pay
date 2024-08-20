@@ -17,9 +17,9 @@ export default function CardInformation() {
     const [selectedFile, setSelectedFile] = useState(null);
         const [uploadStatus, setUploadStatus] = useState('');
     
-        const handleFileChange = (event) => {
-            setSelectedFile(event.target.files[0]);
-        };
+        // const handleFileChange = (event) => {
+        //     setSelectedFile(event.target.files[0]);
+        // };
     
         // const handleUpload = async () => {
         //     if (!selectedFile) {
@@ -47,10 +47,18 @@ export default function CardInformation() {
         //     }
         // };
 
+    // const handleChange = (e) => {
+    //     const { name, value, files } = e.target;
+    //     if (name === 'cardImg' && files.length > 0) {
+    //         setSelectedFile(files[0]);
+    //     } else {
+    //         setEntry({ ...entry, [name]: value });
+    //     }
+    // };
     const handleChange = (e) => {
         const { name, value, files } = e.target;
-        if (name === 'cardImg' && files.length > 0) {
-            setSelectedFile(files[0]);
+        if (name === 'cardImg') {
+            setEntry({ ...entry, [name]: setSelectedFile(files[0]) });
         } else {
             setEntry({ ...entry, [name]: value });
         }
@@ -90,7 +98,7 @@ export default function CardInformation() {
 
                 const uploadResponse = await axios.post('https://yxacaqq2yg.execute-api.ap-northeast-2.amazonaws.com/cards/product', formData, {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'multipart/form-data'
                     }
                 });
 
@@ -207,58 +215,7 @@ export default function CardInformation() {
     );
 }
 
-// import React, { useState } from 'react';
-// import axios from 'axios';
-
-// export default function ImageUpload() {
-//     const [selectedFile, setSelectedFile] = useState(null);
-//     const [uploadStatus, setUploadStatus] = useState('');
-
-//     const handleFileChange = (event) => {
-//         setSelectedFile(event.target.files[0]);
-//     };
-
-//     const handleUpload = async () => {
-//         if (!selectedFile) {
-//             setUploadStatus('No file selected');
-//             return;
-//         }
-
-//         const reader = new FileReader();
-//         reader.onloadend = async () => {
-//             const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
-//             const fileName = selectedFile.name;
-
-//             try {
-//                 const response = await axios.post('https://yxacaqq2yg.execute-api.ap-northeast-2.amazonaws.com/cards/product', {
-//                     file: fileName,
-//                     // headers:
-//                     // content: base64String,
-//                     // contentType: selectedFile.type // 파일의 MIME 타입
-//                 });
-
-//                 if (response.status === 200) {
-//                     setUploadStatus('Image uploaded successfully: ' + response.data.file);
-//                 } else {
-//                     setUploadStatus('Image upload failed: ' + response.data.error);
-//                 }
-//             } catch (error) {
-//                 setUploadStatus('Image upload failed: ' + error.message);
-//             }
-//         };
-
-//         reader.readAsDataURL(selectedFile);
-//     };
-
-//     return (
-//         <div>
-//             <input type="file" onChange={handleFileChange} />
-//             <button onClick={handleUpload}>Upload Image</button>
-//             <p>{uploadStatus}</p>
-//         </div>
-//     );
-// }
-
+// s
 // import React, { useState } from 'react';
 // import axios from 'axios';
 
